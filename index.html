@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Previsão do Tempo</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"/>
 </head>
 <body>
     <div class="input-container">
         <input type="text" placeholder="Digite o nome da cidade">
-        <button class="microfone-button">
-            <img src="microfone.svg" alt="Microfone" class="microfone">
+        
+        <button class="lupa-button" onclick="BuscarCidade()">
+            <i class="ph ph-magnifying-glass" class="microfone"></i>
         </button>
-        <button class="lupa-button">
-            <img src="lupa.svg" alt="Lupa" class="lupa">
+
+        <button class="microfone-button" onclick="Microfone()">
+            <i class="ph ph-microphone" class="lupa"></i>
         </button>
     </div>
 
     <div class="info-container">
-        <p class="cidade">Cidade: </p>
-        <p class="temperatura">Temperatura: </p>
-        <p class="descricao">Descrição: </p>
-        <p class="umidade">Umidade: </p>
+        
     </div>
 </body>
 <script src="script.js"></script>
