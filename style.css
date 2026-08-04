@@ -15,7 +15,7 @@ body {
 }
 
 .input-container {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: black;
     border-radius: 10px;
     padding: 20px;
     display: flex;
@@ -38,4 +38,20 @@ body {
     cursor: pointer;
     margin-right: 10px;
     padding: 10px;
+}
+
+.info-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.lupa-button i, .microfone-button i {
+    font-size: 24px;
+    color: #333;
+    border-radius: 50%;
+    background-color: #fff;
+    padding: 7px;
 }
