@@ -1,5 +1,12 @@
+function limparTexto(texto) {
+  return texto
+    .replace(/[.,;:!?]+/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
 async function BuscarCidade() {
-  const cidade = document.querySelector("input").value.trim();
+  const cidade = limparTexto(document.querySelector("input").value);
   const resultado = document.querySelector(".info-container");
 
   if (!cidade) {
