@@ -71,3 +71,15 @@ async function BuscarCidade() {
       "<p>Não foi possível carregar os dados no momento.</p>";
   }
 }
+
+function Microfone() {
+  const voz = new webkitSpeechRecognition();
+  voz.lang = "pt-BR";
+  voz.start();
+
+  voz.onresult = function (evento) {
+    const cidade = evento.results[0][0].transcript;
+    document.querySelector("input").value = cidade;
+    BuscarCidade();
+  }
+}
