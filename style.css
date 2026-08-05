@@ -55,3 +55,65 @@ body {
     background-color: #fff;
     padding: 7px;
 }
+
+/* Card da previsão */
+.tempo {
+  width: 260px;
+  min-height: 400px;
+  padding: 20px;
+  background: linear-gradient(135deg, #6db3f2, #a8d8f5);
+  border-radius: 12px;
+  color: white;
+  display: none;
+}
+
+.tempo h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.topo-clima {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 15px;
+}
+
+.local-clima {
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 0.7;
+}
+
+.local-clima strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.local-clima span {
+  font-size: 0.95rem;
+}
+
+.temp {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.icone {
+  font-size: 60px;
+}
+
+.info {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.info div {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
