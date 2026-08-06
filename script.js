@@ -23,8 +23,8 @@ async function BuscarCidade() {
     const geoData = await geo.json();
 
     if (!geoData.results || geoData.results.length === 0) {
-      resultado.style.display = "block";
-      resultado.innerHTML = `<p>Cidade não encontrada: ${cidade}</p>`;
+      resultado.style.display = "none";
+      alert("Cidade não encontrada. Por favor, verifique o nome e tente novamente.");
       return;
     }
 
