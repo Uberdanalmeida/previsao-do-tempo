@@ -6,30 +6,34 @@ function limparTexto(texto) {
 }
 
 async function BuscarCidade() {
-  const cidade = limparTexto(document.querySelector("input").value);
-  const resultado = document.querySelector(".info-container");
+  const input = document.querySelector("input");
+  const cidade = limparTexto(input.value);
+  const resultado = document.querySelector(".tempo");
 
   if (!cidade) {
-    alert("Por favor, digite o nome de uma cidade.");
+    resultado.style.display = "block";
+    resultado.innerHTML = "<p>Digite o nome da cidade.</p>";
     return;
   }
 
-  resultado.innerHTML = "<p>Buscando informações...</p>";
-
   try {
     const geo = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidade)}&count=1&language=pt&format=json`,
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidade)}&count=1`,
     );
-
     const geoData = await geo.json();
 
     if (!geoData.results || geoData.results.length === 0) {
-      resultado.innerHTML = "<p>Não foi possível encontrar esta cidade.</p>";
+      resultado.style.display = "block";
+      resultado.innerHTML = `<p>Cidade não encontrada: ${cidade}</p>`;
       return;
     }
 
-    const local = geoData.results[0];
-    const { latitude, longitude, name, country, admin1 } = local;
+    const { latitude, longitude, name, admin1, country } = geoData.results[0];
+
+    const clima = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=relativehumidity_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
+    );
+    const climaData = await clima.json();
 
     const icones = {
       0: "☀️",
@@ -47,46 +51,46 @@ async function BuscarCidade() {
       95: "⛈️",
     };
 
-    const resposta = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
-    );
+    const current = climaData.current_weather ?? {};
+    const currentTime = current.time;
+    let humidity = "—";
 
-    const dados = await resposta.json();
-    const icone = icones[dados.current.weather_code] || "🌍";
+    if (
+      climaData.hourly &&
+      climaData.hourly.time &&
+      climaData.hourly.relativehumidity_2m
+    ) {
+      const index = climaData.hourly.time.indexOf(currentTime);
+      if (index !== -1) {
+        humidity = climaData.hourly.relativehumidity_2m[index];
+      }
+    }
 
+    const icone = icones[current.weathercode] || "🌍";
+
+    resultado.style.display = "block";
     resultado.innerHTML = `
+      <h2>Previsão do Tempo</h2>
       <div class="topo-clima">
-        <div class="temp">${dados.current.temperature_2m}°C</div>
+        <div class="temp">${current.temperature}°C</div>
         <div class="icone">${icone}</div>
       </div>
-
       <div class="local-clima">
-        <strong>${name}, ${country}</strong><br>
-        <span>${admin1 || ""}${admin1 ? " - " : ""}${country}</span>
+        <strong>${name}</strong><br>
+        <span>${admin1 || country}</span>
       </div>
-
       <div class="info">
-        <div>🌡️ Máx.<br>${dados.daily.temperature_2m_max[0]}°C</div>
-        <div>❄️ Mín.<br>${dados.daily.temperature_2m_min[0]}°C</div>
-        <div>💧 Umidade<br>${dados.current.relative_humidity_2m}%</div>
-        <div>💨 Vento<br>${dados.current.wind_speed_10m} km/h</div>
+        <div>🌡️ Máx.<br>${climaData.daily.temperature_2m_max[0]}°C</div>
+        <div>❄️ Mín.<br>${climaData.daily.temperature_2m_min[0]}°C</div>
+        <div>💧 Umidade<br>${humidity}%</div>
+        <div>💨 Vento<br>${current.windspeed ?? "—"} km/h</div>
       </div>
     `;
   } catch (erro) {
+    resultado.style.display = "block";
+    resultado.innerHTML = "<p>Erro ao buscar a previsão do tempo.</p>";
     console.error(erro);
-    resultado.innerHTML =
-      "<p>Não foi possível carregar os dados no momento.</p>";
   }
 }
 
-function Microfone() {
-  const voz = new webkitSpeechRecognition();
-  voz.lang = "pt-BR";
-  voz.start();
 
-  voz.onresult = function (evento) {
-    const cidade = evento.results[0][0].transcript;
-    document.querySelector("input").value = cidade;
-    BuscarCidade();
-  }
-}
