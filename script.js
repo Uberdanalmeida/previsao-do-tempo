@@ -93,4 +93,14 @@ async function BuscarCidade() {
   }
 }
 
+function Microfone() {
+  const voz = new window.webkitSpeechRecognition();
+  voz.lang = "pt-BR";
+  voz.start();
 
+  voz.onresult = function (evento) {
+    const local = evento.results[0][0].transcript;
+    document.querySelector("input").value = local;
+    BuscarCidade();
+  };
+}
