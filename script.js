@@ -76,7 +76,7 @@ async function BuscarCidade() {
         <div class="icone">${icone}</div>
       </div>
       <div class="local-clima">
-        <strong>${name}</strong><br>
+        <strong><i class="ph ph-map-pin"></i>${name}</strong><br>
         <span>${admin1 || country}</span>
       </div>
       <div class="info">
