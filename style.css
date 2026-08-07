@@ -15,10 +15,10 @@ body {
 }
 
 .input-container {
-    background-color: black;
+    background: linear-gradient(135deg, #6db3f2, #a8d8f5);
     border-radius: 10px;
     padding: 20px;
-    display: flex;
+    display: block;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -58,8 +58,7 @@ body {
 
 /* Card da previsão */
 .tempo {
-  width: 260px;
-  min-height: 400px;
+
   padding: 20px;
   background: linear-gradient(135deg, #6db3f2, #a8d8f5);
   border-radius: 12px;
