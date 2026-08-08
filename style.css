@@ -1,64 +1,64 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .input-container {
-    background: linear-gradient(135deg, #6db3f2, #a8d8f5);
-    border-radius: 10px;
-    padding: 20px;
-    display: block;
-    align-items: center;
-    margin-bottom: 20px;
+  background: linear-gradient(135deg, #6db3f2, #a8d8f5);
+  border-radius: 10px;
+  padding: 20px;
+  display: block;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .input-container input {
-    padding: 10px;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    margin-right: 10px;
-    width: 200px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  width: 200px;
 }
 
 .input-container button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
-    padding: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  padding: 10px;
 }
 
 .info-container {
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    padding: 20px;
-    width: 300px;
-    text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
 }
 
-.lupa-button i, .microfone-button i {
-    font-size: 24px;
-    color: #333;
-    border-radius: 50%;
-    background-color: #fff;
-    padding: 7px;
+.lupa-button i,
+.microfone-button i {
+  font-size: 24px;
+  color: #333;
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 7px;
 }
 
 /* Card da previsão */
 .tempo {
-
   padding: 20px;
   background: linear-gradient(135deg, #6db3f2, #a8d8f5);
   border-radius: 12px;

@@ -24,7 +24,9 @@ async function BuscarCidade() {
 
     if (!geoData.results || geoData.results.length === 0) {
       resultado.style.display = "none";
-      alert("Cidade não encontrada. Por favor, verifique o nome e tente novamente.");
+      alert(
+        "Cidade não encontrada. Por favor, verifique o nome e tente novamente.",
+      );
       return;
     }
 
