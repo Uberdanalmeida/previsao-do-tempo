@@ -23,21 +23,38 @@ body {
   margin-bottom: 20px;
 }
 
-.input-container input {
-  padding: 10px;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  margin-right: 10px;
-  width: 200px;
+.input-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 500px;
 }
 
-.input-container button {
+.input-wrapper input {
+  padding: 10px 88px 10px 12px;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  width: 100%;
+}
+
+.input-wrapper button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: transparent;
   border: none;
   cursor: pointer;
-  margin-right: 10px;
-  padding: 10px;
+  padding: 6px;
+  z-index: 2;
+}
+
+.lupa-button {
+  right: 36px;
+}
+
+.microfone-button {
+  right: 6px;
 }
 
 .info-container {
@@ -46,15 +63,6 @@ body {
   padding: 20px;
   width: 300px;
   text-align: center;
-}
-
-.lupa-button i,
-.microfone-button i {
-  font-size: 24px;
-  color: #333;
-  border-radius: 50%;
-  background-color: #fff;
-  padding: 7px;
 }
 
 /* Card da previsão */
