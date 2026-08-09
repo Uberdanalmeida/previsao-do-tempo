@@ -153,7 +153,7 @@ async function BuscarCidade() {
       <div class="info">
         <div>🌡️ Máx.<br>${climaData.daily.temperature_2m_max[0]}°C</div>
         <div>❄️ Mín.<br>${climaData.daily.temperature_2m_min[0]}°C</div>
-        <div>💧 Umidade<br>${humidity}%</div>
+        <div>💧 Umidade<br>${climaData.hourly.relativehumidity_2m[0]}%</div>
         <div>💨 Vento<br>${current.windspeed ?? "—"} km/h</div>
       </div>
     `;
