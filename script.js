@@ -5,6 +5,86 @@ function limparTexto(texto) {
     .trim();
 }
 
+function montarTextoLocalizacao(localizacao) {
+  if (localizacao.detalhes) {
+    const partes = [];
+
+    if (localizacao.detalhes.logradouro) {
+      partes.push(localizacao.detalhes.logradouro);
+    }
+
+    if (localizacao.detalhes.bairro) {
+      partes.push(localizacao.detalhes.bairro);
+    }
+
+    if (localizacao.detalhes.localidade) {
+      partes.push(localizacao.detalhes.localidade);
+    }
+
+    if (localizacao.detalhes.uf) {
+      partes.push(localizacao.detalhes.uf);
+    }
+
+    return partes.join(", ");
+  }
+
+  return [localizacao.name, localizacao.admin1, localizacao.country]
+    .filter(Boolean)
+    .join(", ");
+}
+
+function ehCep(texto) {
+  return /^\d{5}-?\d{3}$/.test(texto.replace(/\s/g, ""));
+}
+
+async function buscarLocalizacao(consulta) {
+  const texto = limparTexto(consulta);
+
+  if (ehCep(texto)) {
+    const cep = texto.replace(/\D/g, "");
+    const respostaCep = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const dadosCep = await respostaCep.json();
+
+    if (dadosCep.erro) {
+      throw new Error("CEP não encontrado.");
+    }
+
+    const busca = `${dadosCep.localidade}, ${dadosCep.uf}`;
+    const respostaGeo = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(busca)}&count=1`,
+    );
+    const geoData = await respostaGeo.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+      throw new Error("Localização não encontrada para o CEP informado.");
+    }
+
+    return {
+      ...geoData.results[0],
+      detalhes: {
+        logradouro: dadosCep.logradouro || "",
+        bairro: dadosCep.bairro || "",
+        localidade: dadosCep.localidade || "",
+        uf: dadosCep.uf || "",
+      },
+    };
+  }
+
+  const respostaGeo = await fetch(
+    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(texto)}&count=1`,
+  );
+  const geoData = await respostaGeo.json();
+
+  if (!geoData.results || geoData.results.length === 0) {
+    throw new Error("Localização não encontrada.");
+  }
+
+  return {
+    ...geoData.results[0],
+    detalhes: null,
+  };
+}
+
 async function BuscarCidade() {
   const input = document.querySelector("input");
   const cidade = limparTexto(input.value);
@@ -12,25 +92,14 @@ async function BuscarCidade() {
 
   if (!cidade) {
     resultado.style.display = "block";
-    resultado.innerHTML = "<p>Digite o nome da cidade.</p>";
+    resultado.innerHTML = "<p>Digite uma Cidade, Estado ou CEP.</p>";
     return;
   }
 
   try {
-    const geo = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidade)}&count=1`,
-    );
-    const geoData = await geo.json();
-
-    if (!geoData.results || geoData.results.length === 0) {
-      resultado.style.display = "none";
-      alert(
-        "Cidade não encontrada. Por favor, verifique o nome e tente novamente.",
-      );
-      return;
-    }
-
-    const { latitude, longitude, name, admin1, country } = geoData.results[0];
+    const localizacao = await buscarLocalizacao(cidade);
+    const { latitude, longitude, name, admin1, country } = localizacao;
+    const localDetalhado = montarTextoLocalizacao(localizacao);
 
     const clima = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=relativehumidity_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
@@ -79,7 +148,7 @@ async function BuscarCidade() {
       </div>
       <div class="local-clima">
         <strong><i class="ph ph-map-pin"></i>${name}</strong><br>
-        <span>${admin1 || country}</span>
+        <span>${localDetalhado}</span>
       </div>
       <div class="info">
         <div>🌡️ Máx.<br>${climaData.daily.temperature_2m_max[0]}°C</div>
