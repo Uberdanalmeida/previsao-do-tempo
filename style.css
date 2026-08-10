@@ -122,3 +122,78 @@ body {
   border-radius: 8px;
   text-align: center;
 }
+
+.previsao {
+  margin-top: 24px;
+}
+
+.previsao h2 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.previsao-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.previsao-card {
+  flex: 0 0 110px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 10px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.previsao-card strong {
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.previsao-icone {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.previsao-descricao {
+  font-size: 0.78rem;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.temperaturas {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.temperaturas span {
+  flex: 1;
+  font-size: 0.8rem;
+  padding: 6px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.previsao-container::-webkit-scrollbar {
+  height: 7px;
+}
+
+.previsao-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+}
