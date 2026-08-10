@@ -42,7 +42,9 @@ async function buscarLocalizacao(consulta) {
 
   if (ehCep(texto)) {
     const cep = texto.replace(/\D/g, "");
+
     const respostaCep = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
     const dadosCep = await respostaCep.json();
 
     if (dadosCep.erro) {
@@ -50,9 +52,13 @@ async function buscarLocalizacao(consulta) {
     }
 
     const busca = `${dadosCep.localidade}, ${dadosCep.uf}`;
+
     const respostaGeo = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(busca)}&count=1`,
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+        busca,
+      )}&count=1`,
     );
+
     const geoData = await respostaGeo.json();
 
     if (!geoData.results || geoData.results.length === 0) {
@@ -71,8 +77,11 @@ async function buscarLocalizacao(consulta) {
   }
 
   const respostaGeo = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(texto)}&count=1`,
+    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+      texto,
+    )}&count=1`,
   );
+
   const geoData = await respostaGeo.json();
 
   if (!geoData.results || geoData.results.length === 0) {
@@ -92,18 +101,25 @@ async function BuscarCidade() {
 
   if (!cidade) {
     resultado.style.display = "block";
-    resultado.innerHTML = "<p>Digite uma Cidade, Estado ou CEP.</p>";
+    resultado.innerHTML = "Digite uma Cidade, Estado ou CEP.";
     return;
   }
 
   try {
     const localizacao = await buscarLocalizacao(cidade);
-    const { latitude, longitude, name, admin1, country } = localizacao;
+
+    const { latitude, longitude, name } = localizacao;
+
     const localDetalhado = montarTextoLocalizacao(localizacao);
 
     const clima = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=relativehumidity_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto`,
     );
+
+    if (!clima.ok) {
+      throw new Error("Não foi possível buscar os dados do clima.");
+    }
+
     const climaData = await clima.json();
 
     const icones = {
@@ -114,64 +130,213 @@ async function BuscarCidade() {
       45: "🌫️",
       48: "🌫️",
       51: "🌦️",
+      53: "🌦️",
+      55: "🌦️",
+      56: "🌧️",
+      57: "🌧️",
       61: "🌧️",
       63: "🌧️",
       65: "🌧️",
+      66: "🌧️",
+      67: "🌧️",
       71: "❄️",
+      73: "❄️",
+      75: "❄️",
+      77: "🌨️",
       80: "🌦️",
+      81: "🌧️",
+      82: "🌧️",
+      85: "🌨️",
+      86: "🌨️",
       95: "⛈️",
+      96: "⛈️",
+      99: "⛈️",
     };
 
-    const current = climaData.current_weather ?? {};
-    const currentTime = current.time;
-    let humidity = "—";
+    const descricoes = {
+      0: "Céu limpo",
+      1: "Predominantemente limpo",
+      2: "Parcialmente nublado",
+      3: "Nublado",
+      45: "Neblina",
+      48: "Neblina",
+      51: "Garoa fraca",
+      53: "Garoa moderada",
+      55: "Garoa forte",
+      56: "Garoa congelante",
+      57: "Garoa congelante forte",
+      61: "Chuva fraca",
+      63: "Chuva moderada",
+      65: "Chuva forte",
+      66: "Chuva congelante",
+      67: "Chuva congelante forte",
+      71: "Neve fraca",
+      73: "Neve moderada",
+      75: "Neve forte",
+      77: "Neve",
+      80: "Pancadas de chuva",
+      81: "Pancadas de chuva",
+      82: "Pancadas fortes",
+      85: "Pancadas de neve",
+      86: "Pancadas de neve",
+      95: "Tempestade",
+      96: "Tempestade com granizo",
+      99: "Tempestade forte com granizo",
+    };
 
-    if (
-      climaData.hourly &&
-      climaData.hourly.time &&
-      climaData.hourly.relativehumidity_2m
-    ) {
-      const index = climaData.hourly.time.indexOf(currentTime);
-      if (index !== -1) {
-        humidity = climaData.hourly.relativehumidity_2m[index];
-      }
-    }
+    // Dados do clima atual
+    const current = climaData.current;
 
-    const icone = icones[current.weathercode] || "🌍";
+    const temperaturaAtual = current.temperature_2m;
+    const umidadeAtual = current.relative_humidity_2m;
+    const ventoAtual = current.wind_speed_10m;
+    const codigoAtual = current.weather_code;
+
+    const icone = icones[codigoAtual] || "🌍";
+    const descricao = descricoes[codigoAtual] || "Condição desconhecida";
+
+    // Previsão dos próximos 5 dias
+    const previsaoHTML = climaData.daily.time
+      .slice(1, 6)
+      .map((data, index) => {
+        const i = index + 1;
+
+        const dataFormatada = new Date(`${data}T12:00:00`);
+
+        const dia = dataFormatada
+          .toLocaleDateString("pt-BR", {
+            weekday: "short",
+          })
+          .replace(".", "");
+
+        const codigoDia = climaData.daily.weather_code[i];
+
+        const iconeDia = icones[codigoDia] || "🌍";
+
+        const descricaoDia = descricoes[codigoDia] || "Clima desconhecido";
+
+        const temperaturaMax = climaData.daily.temperature_2m_max[i];
+
+        const temperaturaMin = climaData.daily.temperature_2m_min[i];
+
+        return `
+          <div class="previsao-card">
+
+            <strong>${dia}</strong>
+
+            <div class="previsao-icone">
+              ${iconeDia}
+            </div>
+
+            <span class="previsao-descricao">
+              ${descricaoDia}
+            </span>
+
+            <div class="temperaturas">
+              <span class="max">
+                ${temperaturaMax}°C
+              </span>
+
+              <span class="min">
+                ${temperaturaMin}°C
+              </span>
+            </div>
+
+          </div>
+        `;
+      })
+      .join("");
 
     resultado.style.display = "block";
+
     resultado.innerHTML = `
       <h2>Previsão do Tempo</h2>
+
       <div class="topo-clima">
-        <div class="temp">${current.temperature}°C</div>
-        <div class="icone">${icone}</div>
+
+        <div class="temp">
+          ${temperaturaAtual}°C
+        </div>
+
+        <div class="icone">
+          ${icone}
+        </div>
+
       </div>
+
+      <div class="descricao-clima">
+        ${descricao}
+      </div>
+
       <div class="local-clima">
-        <strong><i class="ph ph-map-pin"></i>${name}</strong><br>
-        <span>${localDetalhado}</span>
+
+        <strong>
+          <i class="ph ph-map-pin"></i>
+          ${name}
+        </strong>
+
+        <br>
+
+        <span>
+          ${localDetalhado}
+        </span>
+
       </div>
+
       <div class="info">
-        <div>🌡️ Máx.<br>${climaData.daily.temperature_2m_max[0]}°C</div>
-        <div>❄️ Mín.<br>${climaData.daily.temperature_2m_min[0]}°C</div>
-        <div>💧 Umidade<br>${climaData.hourly.relativehumidity_2m[0]}%</div>
-        <div>💨 Vento<br>${current.windspeed ?? "—"} km/h</div>
+
+        <div>
+          🌡️ Máx.<br>
+          ${climaData.daily.temperature_2m_max[0]}°C
+        </div>
+
+        <div>
+          ❄️ Mín.<br>
+          ${climaData.daily.temperature_2m_min[0]}°C
+        </div>
+
+        <div>
+          💧 Umidade<br>
+          ${umidadeAtual}%
+        </div>
+
+        <div>
+          💨 Vento<br>
+          ${ventoAtual} km/h
+        </div>
+
+      </div>
+
+      <div class="previsao">
+
+        <h2>Próximos dias</h2>
+
+        <div class="previsao-container">
+          ${previsaoHTML}
+        </div>
+
       </div>
     `;
   } catch (erro) {
-    resultado.style.display = "block";
-    resultado.innerHTML = "<p>Erro ao buscar a previsão do tempo.</p>";
     console.error(erro);
+
+    resultado.style.display = "block";
+
+    resultado.innerHTML = "Não foi possível carregar os dados no momento.";
   }
 }
 
 function Microfone() {
   const voz = new window.webkitSpeechRecognition();
+
   voz.lang = "pt-BR";
   voz.start();
 
   voz.onresult = function (evento) {
     const local = evento.results[0][0].transcript;
-    document.querySelector("input").value = local;
+
+    document.querySelector("input").value = limparTexto(local);
+
     BuscarCidade();
   };
 }
