@@ -68,7 +68,6 @@ async function buscarLocalizacao(consulta) {
     return {
       ...geoData.results[0],
       detalhes: {
-        logradouro: dadosCep.logradouro || "",
         bairro: dadosCep.bairro || "",
         localidade: dadosCep.localidade || "",
         uf: dadosCep.uf || "",
