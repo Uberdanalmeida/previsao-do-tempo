@@ -10,8 +10,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
-  height: 100vh;
+  padding: 50px 20px;
+  min-height: 100vh;
 }
 
 .input-container {
@@ -24,17 +24,18 @@ body {
 
 .input-wrapper {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   width: 100%;
 }
 
 .input-wrapper input {
+  width: 100%;
   padding: 10px 88px 10px 12px;
   border: none;
   outline: none;
   border-radius: 15px;
-  width: 100%;
+  font-size: 16px;
 }
 
 .input-wrapper button {
@@ -57,27 +58,24 @@ body {
 }
 
 .info-container {
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  padding: 20px;
-  width: 300px;
-  text-align: center;
+  width: min(520px, 100%);
+  margin: 0 auto;
 }
 
-/* Card da previsão */
+/* Card principal */
+
 .tempo {
+  width: 100%;
   padding: 20px;
   background: linear-gradient(135deg, #6db3f2, #a8d8f5);
   border-radius: 12px;
   color: white;
   display: none;
-  max-width: 520px;
   margin: 0 auto;
   text-align: center;
 }
 
 .tempo h2 {
-  text-align: center;
   margin-bottom: 20px;
 }
 
@@ -92,7 +90,7 @@ body {
 .local-clima {
   text-align: center;
   margin-bottom: 20px;
-  line-height: 0.7;
+  line-height: 1.4;
 }
 
 .local-clima strong {
@@ -105,7 +103,6 @@ body {
 }
 
 .descricao-clima {
-  text-align: center;
   margin-bottom: 20px;
   font-size: 1rem;
 }
@@ -133,59 +130,40 @@ body {
   text-align: center;
 }
 
+/* Próximos dias */
+
 .previsao {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
-  max-width: 520px;
+  margin-top: 24px;
 }
 
 .previsao h2 {
   font-size: 1rem;
   margin-bottom: 12px;
   color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   text-align: center;
-  width: 100%;
 }
 
 .previsao-container {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  overflow-x: auto;
-  padding-bottom: 4px;
   width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
 }
 
 .previsao-card {
-  flex: 0 0 110px;
-  min-width: 110px;
-  max-width: 110px;
+  width: 100%;
+  min-width: 0;
   background: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  padding: 10px;
+  border-radius: 12px;
+  padding: 10px 5px;
   color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
 
-.previsao-card {
-  flex: 0 0 110px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  padding: 10px;
-  color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
+
   text-align: center;
 }
 
@@ -201,31 +179,58 @@ body {
 }
 
 .previsao-descricao {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   margin-bottom: 10px;
   line-height: 1.2;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .temperaturas {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   width: 100%;
   justify-content: center;
 }
 
 .temperaturas span {
   flex: 1;
-  font-size: 0.8rem;
-  padding: 6px 6px;
+  font-size: 0.75rem;
+  padding: 5px 2px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
 }
 
-.previsao-container::-webkit-scrollbar {
-  height: 7px;
+/* Tablet */
+
+@media (max-width: 600px) {
+  body {
+    padding: 30px 15px;
+  }
+
+  .previsao-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.previsao-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
+/* Celular */
+
+@media (max-width: 400px) {
+  .tempo {
+    padding: 18px 12px;
+  }
+
+  .temp {
+    font-size: 2.2rem;
+  }
+
+  .icone {
+    font-size: 50px;
+  }
+
+  .previsao-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
