@@ -69,7 +69,7 @@ body {
   padding: 20px;
   background: linear-gradient(135deg, #6db3f2, #a8d8f5);
   border-radius: 12px;
-  color: white;
+  color: #0B2D42;
   display: none;
   margin: 0 auto;
   text-align: center;
@@ -77,6 +77,7 @@ body {
 
 .tempo h2 {
   margin-bottom: 20px;
+  color: #08283A;
 }
 
 .topo-clima {
@@ -91,6 +92,7 @@ body {
   text-align: center;
   margin-bottom: 20px;
   line-height: 1.4;
+  color: #0B2D42;
 }
 
 .local-clima strong {
@@ -105,11 +107,13 @@ body {
 .descricao-clima {
   margin-bottom: 20px;
   font-size: 1rem;
+  color: #164A63;
 }
 
 .temp {
   font-size: 2.5rem;
   font-weight: bold;
+  color: #08283A;
 }
 
 .icone {
@@ -124,7 +128,8 @@ body {
 }
 
 .info div {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.45);
+  color: #0B2D42;
   padding: 10px;
   border-radius: 8px;
   text-align: center;
@@ -140,7 +145,7 @@ body {
 .previsao h2 {
   font-size: 1rem;
   margin-bottom: 12px;
-  color: #ffffff;
+  color: #08283A;
   text-align: center;
 }
 
@@ -154,12 +159,11 @@ body {
 .previsao-card {
   width: 100%;
   min-width: 0;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 12px;
   padding: 10px 5px;
-  color: #ffffff;
-
+  color: #0B2D42;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -170,6 +174,7 @@ body {
 .previsao-card strong {
   font-size: 0.85rem;
   margin-bottom: 8px;
+  color: #08283A;
   text-transform: uppercase;
 }
 
@@ -186,6 +191,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #164A63;
 }
 
 .temperaturas {
@@ -193,11 +199,13 @@ body {
   gap: 4px;
   width: 100%;
   justify-content: center;
+  color: #0B2D42;
 }
 
 .temperaturas span {
   flex: 1;
   font-size: 0.75rem;
+  color: #0B2D42;
   padding: 5px 2px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
