@@ -57,6 +57,11 @@ body {
   right: 6px;
 }
 
+.lupa-button:hover,
+.microfone-button:hover {
+  transform: translateY(-50%) scale(1.5);
+}
+
 .info-container {
   width: min(520px, 100%);
   margin: 0 auto;
