@@ -98,6 +98,8 @@ async function BuscarCidade() {
   const cidade = limparTexto(input.value);
   const resultado = document.querySelector(".tempo");
 
+  input.value = "";
+
   if (!cidade) {
     resultado.style.display = "block";
     resultado.innerHTML = "Digite uma Cidade, Estado ou CEP.";
