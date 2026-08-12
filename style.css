@@ -218,6 +218,14 @@ body {
   white-space: nowrap;
 }
 
+.temperaturas .max {
+  font-weight: bold;
+}
+
+.temperaturas .min {
+  opacity: 0.75;
+}
+
 /* Tablet */
 
 @media (max-width: 600px) {
