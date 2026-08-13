@@ -133,11 +133,11 @@ body {
 }
 
 .info div {
-  background: rgba(255, 255, 255, 0.45);
-  color: #0B2D42;
-  padding: 10px;
+  background: rgba(255, 255, 255, 0.35);
+  padding: 12px 10px;
   border-radius: 8px;
   text-align: center;
+  line-height: 1.6;
 }
 
 /* Próximos dias */
