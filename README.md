@@ -1,5 +1,7 @@
 # 🌤️ Previsão do Tempo
 
+![Previsão-do-tempo](./imagem/previsao-tempo.png)
+
 Aplicação web para consultar informações meteorológicas de uma localização específica, desenvolvida com HTML, CSS e JavaScript.
 
 ## 📋 Descrição
